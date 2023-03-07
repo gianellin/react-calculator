@@ -12,7 +12,8 @@ This is a calculator app created with React.
 - format larger numbers, output resize based on length
 
 ### Wireframe:
-- Layout and components involved.
+- Layout.
+- Components.
 - Colors
 
 
