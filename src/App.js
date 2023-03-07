@@ -95,7 +95,9 @@ function App() {
       });
     }
   };
-  
+  // percentClickHandler
+  // resetClickHandler
+  // invertClickHandler
  
 
   return (
