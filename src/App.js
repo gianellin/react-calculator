@@ -98,6 +98,14 @@ function App() {
   // percentClickHandler
   // resetClickHandler
   // invertClickHandler
+  const invertClickHandler = () => {
+    setCalc({
+      ...calc,
+      num: calc.num ? calc.num * -1 : 0,
+      answer: calc.answer ? calc.answer * -1 : 0,
+      sign: "",
+    });
+  };
  
 
   return (
