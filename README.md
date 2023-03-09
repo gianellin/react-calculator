@@ -16,6 +16,7 @@ This is a calculator app created with React.
 ### Wireframe:
 - Layout.
 <img src="public/images/wireframe.png" style=" width: 50%">
+
 - Components: It has 4 components. 
     - Wrapper
     - ButtonBox
