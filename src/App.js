@@ -21,9 +21,14 @@ function App() {
   let [calc, setCalc] = useState({
     num:0, // the entered value
     sign: "", // the selected sign
-    answer: 0, // the calculated value
+    res: 0, // the calculated value
   });
 
+  //Input REGEX
+  const toLocaleString = (num) =>
+  String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+
+  const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 
 
   //FUNCTIONALITY
@@ -32,16 +37,16 @@ function App() {
     e.preventDefault();
     const value = e.target.innerHTML;
 
-    if (calc.num.length < 16) { //up to 16 integers long.
+    if (removeSpaces(calc.num).length < 16) {
       setCalc({
         ...calc,
         num:
           calc.num === 0 && value === "0"
             ? "0"
-            : calc.num % 1 === 0
-            ? Number(calc.num + value)
-            : calc.num + value,
-        answer: !calc.sign ? 0 : calc.answer, //format .0 when this button is pressed
+            : removeSpaces(calc.num) % 1 === 0
+            ? toLocaleString(Number(removeSpaces(calc.num + value)))
+            : toLocaleString(calc.num + value),
+        res: !calc.sign ? 0 : calc.res,
       });
     }
   };
@@ -67,7 +72,7 @@ function App() {
     setCalc({
       ...calc,
       sign: value,
-      answer: !calc.answer && calc.num ? calc.num : calc.answer,
+      res: !calc.res && calc.num ? calc.num : calc.res,
       num: 0,
     });
   };
@@ -83,35 +88,60 @@ function App() {
           : sign === "X"
           ? a * b
           : a / b;
-  
+
       setCalc({
         ...calc,
-        answer:
+        res:
           calc.num === "0" && calc.sign === "/"
             ? "Can't divide with 0"
-            : math(Number(calc.answer), Number(calc.num), calc.sign),
-        sign:"",
-        num:0,
+            : toLocaleString(
+                math(
+                  Number(removeSpaces(calc.res)),
+                  Number(removeSpaces(calc.num)),
+                  calc.sign
+                )
+              ),
+        sign: "",
+        num: 0,
       });
     }
   };
   // percentClickHandler
-  // resetClickHandler
-  // invertClickHandler
-  const invertClickHandler = () => {
+  const percentClickHandler = () => {
+    let num = calc.num ? parseFloat(calc.num) : 0;
+    let res = calc.res ? parseFloat(calc.res) : 0;
+  
     setCalc({
       ...calc,
-      num: calc.num ? calc.num * -1 : 0,
-      answer: calc.answer ? calc.answer * -1 : 0,
+      num: (num /= Math.pow(100, 1)),
+      res: (res /= Math.pow(100, 1)),
       sign: "",
     });
   };
  
+  // invertClickHandler
+  const invertClickHandler = () => {
+    setCalc({
+      ...calc,
+      num: calc.num ? toLocaleString(removeSpaces(calc.num) * -1) : 0,
+      res: calc.res ? toLocaleString(removeSpaces(calc.res) * -1) : 0,
+      sign: "",
+    });
+  };
+  // resetClickHandler
+  const resetClickHandler = () => {
+    setCalc({
+      ...calc,
+      sign: "",
+      num: 0,
+      res: 0,
+    });
+  };
 
   return (
     <Wrapper>
     {/* ternary operator _ ? _ : _ takes 3 operands (_ -> replace with operands)*/}
-      <Screen value={calc.num ? calc.num : calc.answer} />
+      <Screen value={calc.num ? calc.num : calc.res} />
       <ButtonBox>
         {
           btnPad.flat().map((btn,  i) =>{
