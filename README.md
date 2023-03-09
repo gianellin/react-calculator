@@ -25,7 +25,7 @@ This is a calculator app created with React.
     - Button
 - Colors.
 
-### Deployment
+## Deployment
 
 You can find a running version of this calculator here: [DEMO](https://charming-empanada-f8d3d4.netlify.app/)
 
